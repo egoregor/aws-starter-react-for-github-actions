@@ -8,7 +8,7 @@ frontend:
       commands:
         - yarn build
   artifacts:
-    baseDirectory: build/.keystone/admin/.next
+    baseDirectory: .keystone/admin/.next
     files:
       - '**/*'
   cache:
