@@ -1,83 +1,52 @@
-# AWS CloudFormation Action for GitHub Actions React Starter
+# Keystone Project Starter
 
-This starter template contains a bootstrapped [Create React App](https://github.com/facebook/create-react-app) with a GitHub Workflow that deploys the app to the [AWS Amplify Console](https://aws.amazon.com/amplify/console/) using the [AWS CloudFormation Action for GitHub Actions](https://github.com/marketplace/actions/aws-cloudformation-deploy-cloudformation-stack-action-for-github-actions).
+Welcome to Keystone!
 
-> This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Run
 
-> :fire: if you want to use a [Create React App](https://reactjs.org/docs/create-a-new-react-app.html) template, have a look at the [Amplify + TypeScript](https://github.com/katallaxie/cra-template-amplify-typescript) template
+```
+yarn dev
+```
 
-## Create a new repository from this template
+To view the config for your new app, look at [./keystone.ts](./keystone.ts)
 
-Click the **Use this template** button above to create a new repository from this template.
+This project starter is designed to give you a sense of the power Keystone can offer you, and show off some of its main features. It's also a pretty simple setup if you want to build out from it.
 
-> This repository uses the [template feature](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-template-repository) of GitHub.
+We recommend you use this alongside our [getting started walkthrough](https://keystonejs.com/docs/walkthroughs/getting-started-with-create-keystone-app) which will walk you through what you get as part of this starter.
 
-You need your own AWS account to deploy the app to the [AWS Amplify Console](https://aws.amazon.com/amplify/console/). Follow these [steps](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/) if you do not have an account.
+If you want an overview of all the features Keystone offers, check out our [features](https://keystonejs.com/why-keystone#features) page.
 
-The AWS CloudFormation stack is deployed via [AWS CloudFormation "Deploy CloudFormation Stack" Action for GitHub Actions](https://github.com/marketplace/actions/aws-cloudformation-deploy-cloudformation-stack-action-for-github-actions).
+## Some Quick Notes On Getting Started
 
-When you create a new repository from the template, the GitHub Workflow is not setup. To setup the workflow, you need to follow these steps.
+### Changing the database
 
-1. Create a [new personal token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) with **full control of private repositories** store it as [encrypted secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) `AMPLIFY_TOKEN` in the new repository.
-2. Create a [new IAM user in your AWS account](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html) with **Programmatic Access** and store the access key ID as `AWS_ACCESS_KEY_ID` and secret access key as `AWS_SECRET_ACCESS_KEY` as secrets in your new repository.
-3. (Optional) Configure a [custom domain](https://docs.aws.amazon.com/amplify/latest/userguide/custom-domains.html) for your app by setting the `AMPLIFY_DOMAIN` secret.
+We've set you up with an [SQLite database](https://keystonejs.com/docs/apis/config#sqlite) for ease-of-use. If you're wanting to use PostgreSQL, you can!
 
-You need to run the **Manual Deploy** workflow to deploy it. You find the workflow by clicking *Actions* > *Manual Deploy* > *Run workflow*. When the popover opens, click **Run workflow** to trigger the deployment.
+Just change the `db` property on line 16 of the Keystone file [./keystone.ts](./keystone.ts) to
 
-> The manual triggers is a feature [recently announced](https://github.blog/changelog/2020-07-06-github-actions-manual-triggers-with-workflow_dispatch/) and avoids running the build process both on GitHub Action and AWS Amplify
-> The stack is deployed to `us-east-1` by default. Please change it to the region you want to deploy this to.
+```typescript
+db: {
+    provider: 'postgresql',
+    url: process.env.DATABASE_URL || 'DATABASE_URL_TO_REPLACE',
+}
+```
 
-The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it. In the frontend environments is should show no builds. Click on **Run Build** to initialize the app.
+And provide your database url from PostgreSQL.
 
----
+For more on database configuration, check out or [DB API Docs](https://keystonejs.com/docs/apis/config#db)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Auth
 
-## Available Scripts
+We've put auth into its own file to make this humble starter easier to navigate. To explore it without auth turned on, comment out the `isAccessAllowed` on line 21 of the Keystone file [./keystone.ts](./keystone.ts).
 
-In the project directory, you can run:
+For more on auth, check out our [Authentication API Docs](https://keystonejs.com/docs/apis/auth#authentication-api)
 
-### `npm start`
+### Adding a frontend
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+As a Headless CMS, Keystone can be used with any frontend that uses GraphQL. It provides a GraphQL endpoint you can write queries against at `/api/graphql` (by default [http://localhost:3000/api/graphql](http://localhost:3000/api/graphql)). At Thinkmill, we tend to use [Next.js](https://nextjs.org/) and [Apollo GraphQL](https://www.apollographql.com/docs/react/get-started/) as our frontend and way to write queries, but if you have your own favourite, feel free to use it.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+A walkthrough on how to do this is forthcoming, but in the meantime our [todo example](https://github.com/keystonejs/keystone-react-todo-demo) shows a Keystone set up with a frontend. For a more full example, you can also look at an example app we built for [Prisma Day 2021](https://github.com/keystonejs/prisma-day-2021-workshop)
 
-### `npm test`
+### Embedding Keystone in a Next.js frontend
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
----
-
-## License
-
-This library and the stack file are licensed under the MIT-0 License. See the LICENSE file.
+While Keystone works as a standalone app, you can embed your Keystone app into a [Next.js](https://nextjs.org/) app. This is quite a different setup to the starter, and we recommend checking out our walkthrough for that [here](https://keystonejs.com/docs/walkthroughs/embedded-mode-with-sqlite-nextjs#how-to-embed-keystone-sq-lite-in-a-next-js-app).

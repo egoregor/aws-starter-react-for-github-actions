@@ -1,17 +1,14 @@
 version: 1
 frontend:
   phases:
-    test:
-      commands:
-        - yarn test
     preBuild:
       commands:
-        - yarn install
+        - yarn
     build:
       commands:
-        - yarn run build
+        - yarn build
   artifacts:
-    baseDirectory: build
+    baseDirectory: build/.keystone/admin/.next
     files:
       - '**/*'
   cache:
